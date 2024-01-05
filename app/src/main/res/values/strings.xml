@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ArachnomeshAssignment</string>
+    <string name="click_on_get_location_button">Click on Get location button</string>
+    <string name="get_your_location">Get Your Location</string>
+    <string name="location">Location</string>
+    <string name="contact">Contact</string>
+    <string name="enter_your_name_here">Enter your name here</string>
+    <string name="name">Name</string>
+    <string name="enter_your_contact_number_here">Enter your contact number here</string>
+</resources>
