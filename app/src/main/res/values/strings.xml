@@ -7,4 +7,5 @@
     <string name="enter_your_name_here">Enter your name here</string>
     <string name="name">Name</string>
     <string name="enter_your_contact_number_here">Enter your contact number here</string>
+    <string name="permission_denied_please_give_the_required_permissions_from_settings">Permission Denied please give the required permissions from settings</string>
 </resources>
