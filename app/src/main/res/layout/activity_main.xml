@@ -12,16 +12,45 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
-
         <TextView
-            android:id="@+id/nametext"
+            android:id="@+id/useridText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:textSize="20sp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="100dp"
             android:layout_marginEnd="40dp"
+            android:layout_marginTop="70dp"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/popins"
+            android:textColor="@color/main"
+            android:text="@string/user_id"/>
+
+        <EditText
+            android:id="@+id/useridField"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/round_theme_for_edittext"
+            android:ems="10"
+            android:layout_below="@id/useridText"
+            android:gravity="center_vertical"
+            android:hint="@string/enter_your_user_id"
+            android:inputType="text"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            tools:ignore="Autofill,TouchTargetSizeCheck" />
+
+        <TextView
+            android:id="@+id/nametext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/useridField"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/popins"
             android:textColor="@color/main"
@@ -41,8 +70,6 @@
             android:inputType="text"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="Autofill,TouchTargetSizeCheck" />
 
 
@@ -145,15 +172,26 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/locationField"
             android:layout_marginEnd="40dp"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/popins"
             android:textColor="@android:color/holo_red_light"
             android:textAlignment="center"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:text="@string/permission_denied_please_give_the_required_permissions_from_settings" />
+
+        <Button
+            android:id="@+id/gotoNextActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/popins"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_below="@id/permissionDenied"
+            android:text="@string/post_data" />
 
 
     </RelativeLayout>

@@ -13,9 +13,12 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Looper;
 
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.text.Highlights;
 import android.util.Log;
@@ -37,7 +40,10 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.parceler.Parcels;
+
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,9 +53,9 @@ public class MainActivity extends AppCompatActivity  {
     private static final int PER_REQ_CODE = 100;
 
     double latitude, longitude;
-    EditText name, contact;
+    EditText name, contact, usrId;
     TextView permissionDenied, locationText;
-    Button getLocationbutton;
+    Button getLocationbutton, postData;
     ProgressBar pb;
     private LocationRequest locationRequest;
 
@@ -60,15 +66,22 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         name = findViewById(R.id.nameField);
         contact = findViewById(R.id.contactField);
+        usrId = findViewById(R.id.useridField);
         locationText = findViewById(R.id.locationField);
         getLocationbutton = findViewById(R.id.getlocation);
         permissionDenied = findViewById(R.id.permissionDenied);
         pb = findViewById(R.id.progressBar);
+        postData = findViewById(R.id.gotoNextActivity);
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
+
+        if(!isConnectedtoInternet())
+        {
+            Toast.makeText(this, "Please turn on internet connection", Toast.LENGTH_LONG).show();
+        }
 
         getLocationbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +104,31 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
+        postData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+
+                if (!isConnectedtoInternet()) {
+                    Toast.makeText(getApplicationContext(), "Please turn on internet connection", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (usrId.getText().toString().isEmpty() || name.getText().toString().isEmpty() || contact.getText().toString().isEmpty() || latitude == 0 || longitude == 0) {
+                        Toast.makeText(MainActivity.this, "All fields are necessary!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        userData data = new userData(usrId.getText().toString(), name.getText().toString(), contact.getText().toString(), latitude, longitude);
+
+                        Parcelable parceble = Parcels.wrap(data);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("userdata", parceble);
+
+                        Intent intent = new Intent(MainActivity.this, postDataAcitvity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+
+                }
+            }
+            });
 
 
     }
@@ -158,4 +195,18 @@ public class MainActivity extends AppCompatActivity  {
         return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
+    public boolean isConnectedtoInternet()
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if(connectivityManager!=null)
+        {
+            NetworkInfo activenetwork = connectivityManager.getActiveNetworkInfo();
+            if(activenetwork!=null && activenetwork.isConnectedOrConnecting())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".postDataAcitvity">
+
+
+    <RelativeLayout
+        android:id="@+id/relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/popins"
+            android:text="@string/your_data"
+            android:textAlignment="center"
+            android:textColor="@color/main"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/userid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Userid"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userid"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="usename"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/usercontact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="usercontact"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/latitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/usercontact"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Latitude"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/latitude"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="longitude"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/requesttitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/longitude"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/popins"
+            android:textStyle="bold"
+            android:text="@string/post_request_information"
+            android:textAlignment="center"
+            android:textColor="@color/main"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/requesttitle"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Status"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/statuscode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/status"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Statuscode"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statuscode"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/popins"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Error (if any)"
+            android:textSize="18sp" />
+
+
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbarin_post"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/relativelayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/relativelayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
