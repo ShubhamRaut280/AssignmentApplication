@@ -90,7 +90,13 @@ public class MainActivity extends AppCompatActivity  {
                 {
                     if (isGPSEnabled())
                     {
-                        getcurrentLocation();
+                        if(!isConnectedtoInternet())
+                        {
+                            Toast.makeText(getApplicationContext(), "Please turn on internet connection", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            getcurrentLocation();
+                        }
                     }
                     else {
                         Toast.makeText(MainActivity.this, "Please turn on GPS", Toast.LENGTH_SHORT).show();
@@ -166,6 +172,7 @@ public class MainActivity extends AppCompatActivity  {
             pb.setVisibility(View.VISIBLE);
             LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
                     new LocationCallback() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onLocationResult(@NonNull LocationResult locationResult) {
                             super.onLocationResult(locationResult);
