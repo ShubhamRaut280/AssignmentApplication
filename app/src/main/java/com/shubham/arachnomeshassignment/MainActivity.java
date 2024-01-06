@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity  {
             pb.setVisibility(View.VISIBLE);
             LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
                     new LocationCallback() {
-                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onLocationResult(@NonNull LocationResult locationResult) {
                             super.onLocationResult(locationResult);
@@ -180,7 +179,7 @@ public class MainActivity extends AppCompatActivity  {
                             {
                                 latitude = locationResult.getLocations().get(locationResult.getLocations().size()-1).getLatitude();
                                 longitude = locationResult.getLocations().get(locationResult.getLocations().size()-1).getLongitude();
-                               locationText.setText("Latitude : "+latitude+" ,  Longitude: "+longitude +" ");
+                                locationText.setText("Latitude : "+latitude+" ,  Longitude: "+longitude +" ");
                                pb.setVisibility(View.GONE);
                             }
                         }

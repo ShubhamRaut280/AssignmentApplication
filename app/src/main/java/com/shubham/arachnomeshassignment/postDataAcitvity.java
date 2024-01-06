@@ -76,7 +76,6 @@ public class postDataAcitvity extends AppCompatActivity {
         retrofitInterface postdata = retrofit.create(retrofitInterface.class);
 
         postdata.postDataToApi(userdata).enqueue(new Callback<userData>() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<userData> call, Response<userData> response) {
                 progressBar.setVisibility(GONE);
