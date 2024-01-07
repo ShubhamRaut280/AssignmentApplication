@@ -6,12 +6,8 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,8 +16,6 @@ import android.os.Looper;
 
 import android.os.Parcelable;
 import android.provider.Settings;
-import android.text.Highlights;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,23 +23,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
 import org.parceler.Parcels;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -73,74 +55,85 @@ public class MainActivity extends AppCompatActivity  {
         pb = findViewById(R.id.progressBar);
         postData = findViewById(R.id.gotoNextActivity);
 
+        // created location request for getting location
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
 
+        // for checking internet connection
         if(!isConnectedtoInternet())
         {
             Toast.makeText(this, "Please turn on internet connection", Toast.LENGTH_LONG).show();
         }
 
-        getLocationbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
+
+        // get location button
+        getLocationbutton.setOnClickListener(v -> {
+
+            //checking permissions
+            if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
+            {
+                //checking GPS
+                if (isGPSEnabled())
                 {
-                    if (isGPSEnabled())
+                    // checking internet connection
+                    if(!isConnectedtoInternet())
                     {
-                        if(!isConnectedtoInternet())
-                        {
-                            Toast.makeText(getApplicationContext(), "Please turn on internet connection", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            getcurrentLocation();
-                        }
+                        Toast.makeText(getApplicationContext(), "Please turn on internet connection", Toast.LENGTH_LONG).show();
                     }
                     else {
-                        Toast.makeText(MainActivity.this, "Please turn on GPS", Toast.LENGTH_SHORT).show();
-                        turnOnGPS();
+                        // Getting location
+                        getcurrentLocation();
                     }
                 }
-                else
-                {
-                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PER_REQ_CODE);
+                else {
+                    Toast.makeText(MainActivity.this, "Please turn on GPS", Toast.LENGTH_SHORT).show();
+                    turnOnGPS();
+                }
+            }
+            else
+            {
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PER_REQ_CODE);
+            }
+
+        });
+
+        // post data button
+        postData.setOnClickListener(view -> {
+
+
+            if (!isConnectedtoInternet()) {
+                Toast.makeText(getApplicationContext(), "Please turn on internet connection", Toast.LENGTH_SHORT).show();
+            } else {
+                // checking if all fields are filled by user
+                if (usrId.getText().toString().isEmpty() || name.getText().toString().isEmpty() || contact.getText().toString().isEmpty() || latitude == 0 || longitude == 0) {
+                    Toast.makeText(MainActivity.this, "All fields are necessary!!", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // storing the data provided by user into object
+                    userData data = new userData(usrId.getText().toString(), name.getText().toString(), contact.getText().toString(), latitude, longitude);
+
+                    // making the object parceble and storing it into bundle to pass to second activity
+                    Parcelable parceble = Parcels.wrap(data);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("userdata", parceble);
+
+                    // going to second activity
+                    Intent intent = new Intent(MainActivity.this, postDataAcitvity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
 
             }
         });
-        postData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                if (!isConnectedtoInternet()) {
-                    Toast.makeText(getApplicationContext(), "Please turn on internet connection", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (usrId.getText().toString().isEmpty() || name.getText().toString().isEmpty() || contact.getText().toString().isEmpty() || latitude == 0 || longitude == 0) {
-                        Toast.makeText(MainActivity.this, "All fields are necessary!!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        userData data = new userData(usrId.getText().toString(), name.getText().toString(), contact.getText().toString(), latitude, longitude);
-
-                        Parcelable parceble = Parcels.wrap(data);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("userdata", parceble);
-
-                        Intent intent = new Intent(MainActivity.this, postDataAcitvity.class);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-
-                }
-            }
-            });
 
 
     }
 
+    //checing permission is given or declined
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PER_REQ_CODE){
@@ -164,19 +157,31 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+
+    // getting current location
     @SuppressLint("MissingPermission")
     public void getcurrentLocation()
     {
+        // checking if GPS is enabled
         if(isGPSEnabled())
         {
             pb.setVisibility(View.VISIBLE);
+
+            // initializing fusedlocationprovider and passing the location request and getting callback result
             LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
                     new LocationCallback() {
+
+
+                        // getting actual location here
+                        // we will receive a list of location updates and it is updated after every 5 seconds new location will be added to end of list
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onLocationResult(@NonNull LocationResult locationResult) {
                             super.onLocationResult(locationResult);
                             if(locationResult!=null && locationResult.getLocations().size() > 0)
                             {
+
+                                // storing the most recent location and displaying to user
                                 latitude = locationResult.getLocations().get(locationResult.getLocations().size()-1).getLatitude();
                                 longitude = locationResult.getLocations().get(locationResult.getLocations().size()-1).getLongitude();
                                 locationText.setText("Latitude : "+latitude+" ,  Longitude: "+longitude +" ");
@@ -191,16 +196,21 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
+    // user will be redirected to enable GPS service
     public void turnOnGPS() {
         Intent enableGps = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(enableGps);
     }
 
+
+    // checking GPS enabled or not
     public boolean isGPSEnabled() {
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
+
+    // checking whether the user is connected to internet
     public boolean isConnectedtoInternet()
     {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);

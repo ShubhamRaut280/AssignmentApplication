@@ -38,7 +38,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="Userid"
+            android:text="@string/userid"
             android:textSize="18sp" />
 
 
@@ -51,7 +51,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="usename"
+            android:text="@string/usename"
             android:textSize="18sp" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="usercontact"
+            android:text="@string/usercontact"
             android:textSize="18sp" />
 
         <TextView
@@ -75,7 +75,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="Latitude"
+            android:text="@string/latitude"
             android:textSize="18sp" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="longitude"
+            android:text="@string/longitude"
             android:textSize="18sp" />
 
         <TextView
@@ -112,7 +112,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="Status"
+            android:text="@string/status"
             android:textSize="18sp" />
 
 
@@ -125,7 +125,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="Statuscode"
+            android:text="@string/statuscode"
             android:textSize="18sp" />
 
         <TextView
@@ -137,7 +137,7 @@
             android:fontFamily="@font/popins"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
-            android:text="Error (if any)"
+            android:text="@string/error_if_any"
             android:textSize="18sp" />
 
 

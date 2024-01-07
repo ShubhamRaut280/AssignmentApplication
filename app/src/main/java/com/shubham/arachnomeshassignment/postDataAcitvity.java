@@ -3,6 +3,7 @@ package com.shubham.arachnomeshassignment;
 import static android.view.View.GONE;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -50,9 +51,11 @@ public class postDataAcitvity extends AppCompatActivity {
         relativeLayout.setVisibility(GONE);
         progressBar.setVisibility(View.VISIBLE);
 
+        // getting and storing the data received from first activity
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null && bundle.containsKey("userdata"))
         {
+            // displaying this data
             Parcelable parcelable = bundle.getParcelable("userdata");
             userData userFromMainActivity = Parcels.unwrap(parcelable);
             userid.setText("USER ID : "+userFromMainActivity.userID);
@@ -60,36 +63,51 @@ public class postDataAcitvity extends AppCompatActivity {
             usercontact.setText("CONTACT : "+userFromMainActivity.contact);
             latitude.setText("LATITUDE : "+userFromMainActivity.latitude);
             longitude.setText("LONGITUDE: "+userFromMainActivity.longitude);
+
+            // creating a post request
             retrofitWork(userFromMainActivity);
         }
 
 
     }
 
+
+    // creating a post request
     public void retrofitWork(userData userdata)
     {
+
+        // initialize retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://reqres.in/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        // initializing the interface created earlier which consist of all the request methods defined
         retrofitInterface postdata = retrofit.create(retrofitInterface.class);
 
+        //creating post request
         postdata.postDataToApi(userdata).enqueue(new Callback<userData>() {
+
+            // if the reqeust successfully completes
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call<userData> call, Response<userData> response) {
+            public void onResponse(@NonNull Call<userData> call, @NonNull Response<userData> response) {
                 progressBar.setVisibility(GONE);
                 relativeLayout.setVisibility(View.VISIBLE);
 
-
+                // data successfully posted
                 if(response.isSuccessful())
                 {
                     progressBar.setVisibility(GONE);
+
+                    // set status and status code in activity to display user and show toast messages to user
                     status.setText("STATUS : Successful");
                     statuscode.setText("STATUS CODE : "+response.code());
                     error.setVisibility(GONE);
                     Toast.makeText(postDataAcitvity.this, "Data Posted Successfully. Response code : "+ response.code(), Toast.LENGTH_LONG).show();
                 }
+
+                // error in data posting but the request completed successfully
                 else
                 {
                     try {
@@ -106,6 +124,8 @@ public class postDataAcitvity extends AppCompatActivity {
                 }
             }
 
+
+            // request fails
             @SuppressLint("SetTextI18n")
             @Override
             public void onFailure(Call<userData> call, Throwable t) {

@@ -8,6 +8,10 @@ import retrofit2.http.POST;
 
 public interface retrofitInterface {
 
+
+    // post request
     @POST("users")
     Call<userData> postDataToApi(@Body userData userdata);
+
+
 }

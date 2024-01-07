@@ -13,4 +13,12 @@
     <string name="user_id">User Id</string>
     <string name="your_data">Your Data</string>
     <string name="post_request_information">Post request information</string>
+    <string name="longitude">longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="usercontact">usercontact</string>
+    <string name="usename">usename</string>
+    <string name="userid">Userid</string>
+    <string name="statuscode">Statuscode</string>
+    <string name="error_if_any">Error (if any)</string>
+    <string name="status">Status</string>
 </resources>
